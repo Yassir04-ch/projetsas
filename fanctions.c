@@ -199,7 +199,10 @@ void statistique(){
 void menuAvions() {
     int choix;
     do{
-        printf("\n------------ Gestion Avions---------------\n");
+        printf("==============================================\n");
+        printf("===          Gestion Avions                ===\n");
+        printf("==============================================\n");
+        printf("\n");
         printf("1-Ajouter un avion\n");
         printf("2-Modifier un avion\n");
         printf("3-Supprimer un avion\n");
@@ -252,7 +255,10 @@ void menuAeroport() {
     int choix;
     do
     {
-     printf("=========gestion de l'Aeroport========\n");
+     printf("==========================================\n");
+     printf("========= GESTION de l'AEROPORT ==========\n");
+     printf("==========================================\n");
+     printf("\n");
      printf("1-changer le nom\n");
      printf("2-afficher \n");
      printf("0-retourn\n");

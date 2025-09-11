@@ -2,12 +2,17 @@
 
 int main() {
    aeroport.nbAvions = 0 ;
-   printf("===========Gestion Aeroport=============\n");
-   printf("nom de Aeroport:\n");
+    printf("==============================================\n");
+    printf("=========== GESTION AEROPOZT =============\n");
+    printf("==============================================\n");
+    printf("nom de Aeroport:\n");
     scanf(" %[^\n]",aeroport.nom);
     int choix;
     do{
-       printf("\n===================Menu Principal===================\n");
+       printf("=====================================================\n");
+       printf("=================== MENU PRINCIPAL ==================\n");
+       printf("=====================================================\n");
+       printf("\n");
        printf("1-Gestion Avions\n");
        printf("2-Gestion Aeroport\n");
        printf("3-calcul coefficient occupation\n");
