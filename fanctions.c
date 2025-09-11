@@ -131,7 +131,10 @@ void modifierAvion() {
     printf("Modifier statut: ");
     scanf(" %[^\n]",aeroport.flotte[pos].statut);
     printf("modifier la date: ");
-    scanf("%d-%d-%d",&aeroport.flotte[pos].dateentree.jour,
+    char dateStr[20];
+    fgets(dateStr, sizeof(dateStr),stdin);
+
+    scanf(dateStr," %d-%d-%d",&aeroport.flotte[pos].dateentree.jour,
     &aeroport.flotte[pos].dateentree.mois,aeroport.flotte[pos].dateentree.annee);
     printf("Avion modifie.\n");
 }
