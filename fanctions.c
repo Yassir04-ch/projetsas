@@ -14,23 +14,24 @@
     scanf("%d", &a.capacite);
     printf("Entrez le statut (Disponible/En maintenance/En vol): ");
     scanf(" %[^\n]", a.statut);
-
+    printf("entrez la date d'entree jour-mois-annee ");
+    scanf("%d-%d-%d",&a.dateentree.jour,&a.dateentree.mois,&a.dateentree.annee);
 
     aeroport.flotte[aeroport.nbAvions++] = a;
     printf("Avion ajoute avec ID %d\n", a.idAvion);
 }
  void afficherAvion(struct Avion a){
-    printf("ID: %d \t modele: %s \t capacite: %d \t statut: %s \n"
-        ,a.idAvion,a.modele,a.capacite,a.statut);
+    printf("ID: %d \t modele: %s \t capacite: %d \t statut: %s \t %d-%d-%d\n"
+        ,a.idAvion,a.modele,a.capacite,a.statut,a.dateentree);
  }
  void afficherFlotte(){
     if (aeroport.nbAvions == 0)
     {
-     printf("aucun avion.\n");
-     return;
+      printf("aucun avion.\n");
+      return;
     }
     for (int i = 0; i <aeroport.nbAvions; i++)
-     afficherAvion(aeroport.flotte[i]);
+      afficherAvion(aeroport.flotte[i]);
  }
  
 void trierparmodele(){
@@ -129,6 +130,9 @@ void modifierAvion() {
     scanf("%d",&aeroport.flotte[pos].capacite);
     printf("Modifier statut: ");
     scanf(" %[^\n]",aeroport.flotte[pos].statut);
+    printf("modifier la date: ");
+    scanf("%d-%d-%d",&aeroport.flotte[pos].dateentree.jour,
+    &aeroport.flotte[pos].dateentree.mois,aeroport.flotte[pos].dateentree.annee);
     printf("Avion modifie.\n");
 }
 

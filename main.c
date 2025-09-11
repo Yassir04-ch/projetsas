@@ -7,11 +7,11 @@ int main() {
     scanf(" %[^\n]",aeroport.nom);
     int choix;
     do{
-       printf("\n======== Menu Principal =======\n");
+       printf("\n===================Menu Principal===================\n");
        printf("1-Gestion Avions\n");
        printf("2-Gestion Aeroport\n");
        printf("3-calcul coefficient occupation\n");
-       printf("statistiques");
+       printf("4-statistiques");
        printf("0-Quitter\n");
        printf("Votre choix:");
        scanf("%d",&choix);

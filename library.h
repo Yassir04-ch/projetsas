@@ -3,11 +3,19 @@
 #include <stdio.h>
 #include <string.h>
 #define MAX 200
+struct date 
+{
+    int jour;
+    int mois;
+    int annee;
+};
+
 struct Avion {
     int idAvion;
     char modele[50];
     int capacite;
     char statut[20];
+    struct date dateentree;
 };
 
 struct Aeroport {
