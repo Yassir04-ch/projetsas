@@ -15,6 +15,7 @@ struct Aeroport {
     struct Avion flotte[MAX];
     int nbAvions;
 }aeroport;
+
  void ajouterAvion();
  void afficherAvion(struct Avion a);
  void afficherFlotte();
@@ -27,6 +28,7 @@ struct Aeroport {
  void modifierAvion() ;
  void supprimerAvion() ;
  void calculCoeffOccupation();
+ void statistique();
  void menuAvions();
  void menuAeroport();
 #endif

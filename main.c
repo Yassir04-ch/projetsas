@@ -11,6 +11,7 @@ int main() {
        printf("1-Gestion Avions\n");
        printf("2-Gestion Aeroport\n");
        printf("3-calcul coefficient occupation\n");
+       printf("statistiques");
        printf("0-Quitter\n");
        printf("Votre choix:");
        scanf("%d",&choix);
@@ -21,6 +22,8 @@ int main() {
                 break;
             case 3: calculCoeffOccupation();
                 break;
+            case 4:statistique();
+            break;    
             case 0: printf("le programe est quitter\n");
                 break;
             default: printf("choix invalide.\n");        

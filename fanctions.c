@@ -157,8 +157,38 @@ void calculCoeffOccupation() {
     float coeff = ((float)dispo/aeroport.nbAvions)*100;
     printf("Coeff. occupation: %.2f%%\n",coeff);
 }
-
-
+void statistique(){
+    if (aeroport.nbAvions==0)
+    {
+      printf("aucun avion on aeroport.\n");
+      return ;
+    }
+    int dispo = 0 , maintenance = 0 , Envol = 0;
+    int mincap = aeroport.flotte[0].capacite;
+    int maxcap = aeroport.flotte[0].capacite;
+    int totalcap=0;
+  for(int i = 0 ;i<aeroport.nbAvions ; i++){
+    totalcap+=aeroport.flotte[i].capacite;
+    if(strcasecmp(aeroport.flotte[i].statut,"Disponible")==0)
+       dispo++;
+    if (strcasecmp(aeroport.flotte[i].statut,"En maintenance")==0)
+     maintenance++;
+    if(strcasecmp(aeroport.flotte[i].statut,"En vol")==0)
+     Envol++;
+    if (aeroport.flotte[i].capacite>maxcap)
+     maxcap=aeroport.flotte[i].capacite;
+    if (aeroport.flotte[i].capacite<mincap)
+     mincap=aeroport.flotte[i].capacite;
+     
+}
+   printf("total avions est : %d \n",aeroport.nbAvions);
+   printf("disponible est : %d\n ",dispo);
+   printf("En maintenance est : %d\n",maintenance);
+   printf("En vol est : %d\n ",Envol);
+   printf("le maximum capacite est : %d\n",maxcap);
+   printf("le minimum capacite est : %d\n",mincap);
+   printf("la capacite total est : %d\n",totalcap);
+}
 void menuAvions() {
     int choix;
     do{
@@ -180,15 +210,15 @@ void menuAvions() {
             case 3: supprimerAvion(); break;
             case 4: afficherFlotte(); break;
             case 5:{
-            int id;
-            printf("entrez ID: ");
-            scanf("%d",&id);
-            int pos = rechercheId(id);
-            if(pos!=-1)
-            afficherAvion(aeroport.flotte[pos]);
-            else
-            printf("non trouve.\n");
-            }
+                int id;
+                printf("entrez ID: ");
+                scanf("%d",&id);
+                int pos = rechercheId(id);
+                if(pos!=-1)
+                afficherAvion(aeroport.flotte[pos]);
+                else
+                printf("non trouve.\n");
+                }
                break;
             case 6:{
                 char modele[50];
