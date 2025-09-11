@@ -35,7 +35,7 @@ void ajouterAvion() {
     printf("Avion ajoute avec ID %d\n", a.idAvion);
 }
  void afficherAvion(struct Avion a){
-    printf("ID: %d \t modele: %s \t capacite: %d \t status: %s \n"
+    printf("ID: %d \t modele: %s \t capacite: %d \t statut: %s \n"
         ,a.idAvion,a.modele,a.capacite,a.statut);
  }
  void afficherFlotte(){
@@ -104,13 +104,28 @@ int recherchemodele(char modele[]){
     return -1;
     
  }
+   void trierparid(){
+     for (int i = 0; i <aeroport.nbAvions-1; i++)
+     {
+       for (int j = 0; j <aeroport.nbAvions-i-1; j++)
+       {
+        if (aeroport.flotte[j].idAvion>aeroport.flotte[j+1].idAvion)
+        {
+           struct Avion tmp = aeroport.flotte[j];
+           aeroport.flotte[j] = aeroport.flotte[j+1];
+           aeroport.flotte[j+1] = tmp;
+        }
+       }
+     }
+   }
     int rechercheId(int id) {
+    trierparid();
     int debut=0, fin=aeroport.nbAvions-1;
     while(debut<=fin) {
         int milieu = (debut+fin)/2;
         if(aeroport.flotte[milieu].idAvion == id) return milieu;
-        else if(aeroport.flotte[milieu].idAvion < id) fin=milieu+1;
-        else debut=milieu-1;
+        else if(aeroport.flotte[milieu].idAvion < id) debut = milieu+1;
+        else fin = milieu-1;
     }
     return -1;
 }
@@ -158,6 +173,7 @@ void calculCoeffOccupation() {
     printf("Coeff. occupation: %.2f%%\n",coeff);
 }
 
+
 void menuAvions() {
     int choix;
     do{
@@ -171,7 +187,7 @@ void menuAvions() {
         printf("7-trier par capacite\n");
         printf("8-trier par modele\n");
         printf("0-retour\n");
-        printf("entrez le choix");
+        printf("entrez le choix: ");
         scanf("%d",&choix);
         switch(choix){
             case 1: ajouterAvion(); break;
@@ -184,7 +200,7 @@ void menuAvions() {
             scanf("%d",&id);
             int pos = rechercheId(id);
             if(pos!=-1)
-            afficheravion(aeroport.flotte[pos]);
+            afficherAvion(aeroport.flotte[pos]);
             else
             printf("non trouve.\n");
             }
@@ -195,7 +211,7 @@ void menuAvions() {
                 scanf(" %[^\n]",modele);
                 int pos = recherchemodele(modele);
                 if (pos!=-1)
-                 afficheravion(aeroport.flotte[pos]);
+                 afficherAvion(aeroport.flotte[pos]);
                  else
                  printf("non truve.\n");
                  break;
@@ -225,7 +241,7 @@ void menuAeroport() {
     printf("nom aeroport: ");
     scanf(" %[^\n]",aeroport.nom);
     break;
- case 2:afficherflotte();  
+ case 2:afficherFlotte();  
     break;
  default:printf("choix invalide.\n");
     
