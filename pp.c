@@ -38,20 +38,24 @@ void ajouterAvion() {
     printf("Avion ajoute avec ID %d\n", a.idAvion);
 }
 
-void afficherAvion(struct Avion a) {
-    printf("ID:%d | Modele:%s | Cap:%d | Statut:%s ",
-           a.idAvion, a.modele, a.capacite, a.statut);
-}
+ void afficherflotte(){
+    printf("==========Aeroport=========\n");
+    printf("nom : %s\n",aeroport.nom);
+    printf("nombre d'avions : %d\n",aeroport.nbAvions);
+    if (aeroport.nbAvions>0)
+    {
+        printf("liste est :");
+        for (int i = 0; i < aeroport.nbAvions; i++)
+        {
+            printf("%d",aeroport.flotte[i].idAvion);
+            if(i<aeroport.nbAvions-1)
+               printf(",");
+        }
+        printf("\n");
+    }
+    
 
-void afficherFlotte() {
-    if(aeroport.nbAvions == 0) {
-        printf("Aucun avion.\n");
-        return;
-    }
-    for(int i=0;i<aeroport.nbAvions;i++) {
-        afficherAvion(aeroport.flotte[i]);
-    }
-}
+ }
 void trierparmodele(){
     for (int i = 0; i < aeroport.nbAvions-1; i++)
     {
@@ -66,13 +70,55 @@ void trierparmodele(){
      } 
     } 
 }
-    int rechercheBinaireId(int id) {
-    int gauche=0, droite=aeroport.nbAvions-1;
-    while(gauche<=droite) {
-        int milieu = (gauche+droite)/2;
+void trierparcapacite(){
+    for (int i = 0;i< aeroport.nbAvions-1;i++){
+        for(int j = 0;j < aeroport.nbAvions-i-1;j++){
+            if(aeroport.flotte[j].capacite>aeroport.flotte[j+1].capacite){
+             struct Avion tmp = aeroport.flotte[j];
+             aeroport.flotte[j]=aeroport.flotte[j+1];
+             aeroport.flotte[j+1]= tmp;
+            }
+        }
+    }
+}
+int recherchemodele(){
+    trierparmodele();
+ int debut=0 , fin= aeroport.nbAvions-1;
+ while (debut<=fin)
+ {
+    int milieu = (debut+fin)/2;
+    if (strcasecmp(aeroport.flotte[milieu].modele,modele)==0)
+        return milieu;
+    else if(strcasecmp(aeroport.flotte[milieu].modele,modele)<0)
+    debut = milieu+1;
+    else
+    fin = milieu-1;
+ }
+   return -1;
+}
+ int recherchecapacite(int capacite){
+     trierparcapacite();
+    int debut = 0 , fin = aeroport.nbAvions-1;
+    while (debut<=fin)
+    {
+        int milieur = (debut+fin)/2;
+        if(aeroport.flotte[milieur].capacite==capacite)
+        return milieur;
+        else if (aeroport.flotte[milieur]<capacite)
+         debut = milieur +1;
+        else
+         fin = milieur -1; 
+    }
+    return -1;
+    
+ }
+    int rechercheId(int id) {
+    int debut=0, fin=aeroport.nbAvions-1;
+    while(debut<=fin) {
+        int milieu = (debut+fin)/2;
         if(aeroport.flotte[milieu].idAvion == id) return milieu;
-        else if(aeroport.flotte[milieu].idAvion < id) gauche=milieu+1;
-        else droite=milieu-1;
+        else if(aeroport.flotte[milieu].idAvion < id) fin=milieu+1;
+        else debut=milieu-1;
     }
     return -1;
 }
@@ -81,7 +127,7 @@ void modifierAvion() {
     int id;
     printf("Entrez ID de l'avion a modifier: ");
     scanf("%d",&id);
-    int pos = rechercheBinaireId(id);
+    int pos = rechercheId(id);
     if(pos == -1) { printf("Avion non trouve!\n"); return; }
 
     printf("Modifier modele: ");
@@ -97,7 +143,7 @@ void supprimerAvion() {
     int id;
     printf("Entrez ID de l'avion a supprimer: ");
     scanf("%d",&id);
-    int pos = rechercheBinaireId(id);
+    int pos = rechercheId(id);
     if(pos==-1) { printf("Avion non trouve!\n"); return; }
     for(int i=pos;i<aeroport.nbAvions-1;i++) {
         aeroport.flotte[i] = aeroport.flotte[i+1];
@@ -115,66 +161,87 @@ void calculCoeffOccupation() {
     printf("Coeff. occupation: %.2f%%\n",coeff);
 }
 
-void statistiques() {
-    if(aeroport.nbAvions==0){printf("Aucun avion.\n"); return;}
-    int dispo=0, maintenance=0, enVol=0, minCap=aeroport.flotte[0].capacite, maxCap=aeroport.flotte[0].capacite, totalCap=0;
-    for(int i=0;i<aeroport.nbAvions;i++){
-        totalCap+=aeroport.flotte[i].capacite;
-        if(strcasecmp(aeroport.flotte[i].statut,"Disponible")==0) dispo++;
-        else if(strcasecmp(aeroport.flotte[i].statut,"En maintenance")==0) maintenance++;
-        else if(strcasecmp(aeroport.flotte[i].statut,"En vol")==0) enVol++;
-        if(aeroport.flotte[i].capacite>maxCap) maxCap=aeroport.flotte[i].capacite;
-        if(aeroport.flotte[i].capacite<minCap) minCap=aeroport.flotte[i].capacite;
-    }
-    printf("Total avions: %d\n",aeroport.nbAvions);
-    printf("Disponible:%d | En maintenance:%d | En vol:%d\n",dispo,maintenance,enVol);
-    printf("Cap totale:%d | Min:%d | Max:%d\n",totalCap,minCap,maxCap);
-}
-
-
 void menuAvions() {
     int choix;
     do{
         printf("\n------------ Gestion Avions---------------\n");
-        printf("p1-Ajouter un avion\n");
+        printf("1-Ajouter un avion\n");
         printf("2-Modifier un avion\n");
         printf("3-Supprimer un avion\n");
         printf("4-Afficher les avions\n");
-        printf("5-Coeff Occupation\n") ;
-        printf("6-Statistiques\n") ;
-        printf("0-Retour\nVotre choix:");
+        printf("5-recherche un avion par id\n");
+        printf("6-recherche un avion par modele\n");
+        printf("7-trier par capacite\n");
+        printf("8-trier par modele\n");
+        printf("0-retour\n");
+        printf("entrez le choix");
         scanf("%d",&choix);
         switch(choix){
             case 1: ajouterAvion(); break;
             case 2: modifierAvion(); break;
             case 3: supprimerAvion(); break;
             case 4: afficherFlotte(); break;
-            case 5: calculCoeffOccupation(); break;
-            case 6: statistiques(); break;
+            case 5:{
+            int id;
+            printf("entrez id: ");
+            scanf("%d",&id);
+            int pos = rechercheId(id);
+            if(pos!=-1)
+            afficheravion(aeroport.flotte[pos]);
+            else
+            printf("non trouve.\n");
+            }
+               break;
+            case 6:{
+                char modele[50];
+                printf("entrez le modele: ");
+                scanf(" %[^\n]",modele);
+                int pos = recherchemodele();
+                if (pos!=-1)
+                 afficheravion(aeroport.flotte[pos]);
+                 else
+                 printf("non truve.\n");
+                 break;
+            }
+            case 7: trierparcapacite();
+            break;
+            case 8 : trierparmodele();
+            break;
+            case 0 :
+            break;
+            default : printf("choix invalide\n");
         }
     }while(choix!=0);
 }
-
-void menuAeroportGestion() {
-    printf("\nNom aeroport: %s\nTotal avions:%d\n",aeroport.nom,aeroport.nbAvions);
-    int dispo=0, maintenance=0, enVol=0;
-    for(int i=0;i<aeroport.nbAvions;i++){
-        if(strcmp(aeroport.flotte[i].statut,"Disponible")==0) dispo++;
-        else if(strcmp(aeroport.flotte[i].statut,"En maintenance")==0) maintenance++;
-        else if(strcmp(aeroport.flotte[i].statut,"En vol")==0) enVol++;
-    }
-    printf("Disponible:%d | Maintenance:%d | En vol:%d\n",dispo,maintenance,enVol);
-}
-
-
 void menuAeroport() {
-    printf("Entrez nom aeroport: ");
+    int choix;
+    do
+    {
+     printf("=========gestion de l'Aeroport========\n");
+     printf("1-changer le nom\n");
+     printf("2-afficher \n");
+     printf("0-retourn\n");
+     scanf("%d",&choix);
+ switch (choix)
+ {
+ case 1:
+    printf("nom aeroport: ");
     scanf(" %[^\n]",aeroport.nom);
-    aeroport.nbAvions=0;
+    break;
+ case 2:afficherflotte();  
+    break;
+ default:printf("choix invalide.\n");
+    
+ }
+    } while (choix!=0);
+    
 }
 
 int main() {
-    menuAeroport();
+   aeroport.nbAvions = 0 ;
+   printf("===========Gestion Aeroport=============\n");
+   printf("nom de Aeroport:\n");
+    scanf(" %[^\n]",aeroport);
     int choix;
     do{
        printf("\n======== Menu Principal =======\n");
@@ -184,10 +251,18 @@ int main() {
        printf("Votre choix:");
        scanf("%d",&choix);
         switch(choix){
-            case 1: menuAvions(); break;
-            case 2: menuAeroportGestion(); break;
+            case 1: menuAvions(); 
+                break;
+            case 2: menuAeroportGestion();
+                break;
+            case 3: calculCoeffOccupation();
+                break;
+            case 4: statistiques();
+                break;
+            case 0: printf("le programe est quitter\n");
+                break;
+            default: printf("choix invalide.\n");        
         }
     }while(choix!=0);
-    printf("Au revoir!\n");
     return 0;
 }
