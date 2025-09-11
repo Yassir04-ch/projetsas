@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define MAX 100
+#define MAX 200
 struct Avion {
     int idAvion;
     char modele[50];
@@ -21,7 +21,7 @@ void ajouterAvion() {
         printf("Flotte pleine!\n");
         return;
     }
-    
+    struct Avion a;
     a.idAvion = idCounter++;
     printf("Entrez le modele: ");
     scanf(" %[^\n]", a.modele);
@@ -34,18 +34,18 @@ void ajouterAvion() {
     aeroport.flotte[aeroport.nbAvions++] = a;
     printf("Avion ajoute avec ID %d\n", a.idAvion);
 }
- void afficheravion(struct avion a){
+ void afficherAvion(struct Avion a){
     printf("ID: %d \t modele: %s \t capacite: %d \t status: %s \n"
-        ,a.idavion,a.modele,a.capacite,a.status);
+        ,a.idAvion,a.modele,a.capacite,a.statut);
  }
- void afficherflotte(){
+ void afficherFlotte(){
     if (aeroport.nbAvions == 0)
     {
      printf("aucun avion.\n");
      return;
     }
     for (int i = 0; i <aeroport.nbAvions; i++)
-     afficheravion(aeroport.flotte[i]);
+     afficherAvion(aeroport.flotte[i]);
  }
  
 void trierparmodele(){
@@ -60,7 +60,7 @@ void trierparmodele(){
         aeroport.flotte[j+1]=tmp;
         } 
      } 
-    } 
+   } 
 }
 void trierparcapacite(){
     for (int i = 0;i< aeroport.nbAvions-1;i++){
@@ -73,7 +73,7 @@ void trierparcapacite(){
         }
     }
 }
-int recherchemodele(){
+int recherchemodele(char modele[]){
     trierparmodele();
  int debut=0 , fin= aeroport.nbAvions-1;
  while (debut<=fin)
@@ -93,13 +93,13 @@ int recherchemodele(){
     int debut = 0 , fin = aeroport.nbAvions-1;
     while (debut<=fin)
     {
-        int milieur = (debut+fin)/2;
-        if(aeroport.flotte[milieur].capacite==capacite)
-        return milieur;
-        else if (aeroport.flotte[milieur]<capacite)
-         debut = milieur +1;
+        int milieu = (debut+fin)/2;
+        if(aeroport.flotte[milieu].capacite==capacite)
+        return milieu;
+        else if (aeroport.flotte[milieu].capacite<capacite)
+         debut = milieu +1;
         else
-         fin = milieur -1; 
+         fin = milieu -1; 
     }
     return -1;
     
@@ -120,8 +120,9 @@ void modifierAvion() {
     printf("Entrez ID de l'avion a modifier: ");
     scanf("%d",&id);
     int pos = rechercheId(id);
-    if(pos == -1) { printf("Avion non trouve!\n"); return; }
-
+    if(pos == -1) { printf("Avion non trouve!\n"); 
+        return;
+     }
     printf("Modifier modele: ");
     scanf(" %[^\n]",aeroport.flotte[pos].modele);
     printf("Modifier capacite: ");
@@ -136,7 +137,11 @@ void supprimerAvion() {
     printf("Entrez ID de l'avion a supprimer: ");
     scanf("%d",&id);
     int pos = rechercheId(id);
-    if(pos==-1) { printf("Avion non trouve!\n"); return; }
+    if(pos==-1)
+     { 
+        printf("Avion non trouve!\n"); 
+        return;
+     }
     for(int i=pos;i<aeroport.nbAvions-1;i++) {
         aeroport.flotte[i] = aeroport.flotte[i+1];
     }
@@ -175,7 +180,7 @@ void menuAvions() {
             case 4: afficherFlotte(); break;
             case 5:{
             int id;
-            printf("entrez id: ");
+            printf("entrez ID: ");
             scanf("%d",&id);
             int pos = rechercheId(id);
             if(pos!=-1)
@@ -188,7 +193,7 @@ void menuAvions() {
                 char modele[50];
                 printf("entrez le modele: ");
                 scanf(" %[^\n]",modele);
-                int pos = recherchemodele();
+                int pos = recherchemodele(modele);
                 if (pos!=-1)
                  afficheravion(aeroport.flotte[pos]);
                  else
@@ -233,23 +238,22 @@ int main() {
    aeroport.nbAvions = 0 ;
    printf("===========Gestion Aeroport=============\n");
    printf("nom de Aeroport:\n");
-    scanf(" %[^\n]",aeroport);
+    scanf(" %[^\n]",aeroport.nom);
     int choix;
     do{
        printf("\n======== Menu Principal =======\n");
        printf("1-Gestion Avions\n");
        printf("2-Gestion Aeroport\n");
+       printf("3-calcul coefficient occupation\n");
        printf("0-Quitter\n");
        printf("Votre choix:");
        scanf("%d",&choix);
         switch(choix){
             case 1: menuAvions(); 
                 break;
-            case 2: menuAeroportGestion();
+            case 2: menuAeroport();
                 break;
             case 3: calculCoeffOccupation();
-                break;
-            case 4: statistiques();
                 break;
             case 0: printf("le programe est quitter\n");
                 break;
