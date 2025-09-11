@@ -1,6 +1,6 @@
  #include"library.h"
  int idCounter = 1;
-
+// fanction pour ajouter un avion a la flotte de l'aeroport
  void ajouterAvion() {
     if(aeroport.nbAvions >= MAX) {
         printf("Flotte pleine!\n");
@@ -20,10 +20,12 @@
     aeroport.flotte[aeroport.nbAvions++] = a;
     printf("Avion ajoute avec ID %d\n", a.idAvion);
 }
+//fonction pour afficher les informations d'un avion
  void afficherAvion(struct Avion a){
     printf("ID: %d \t modele: %s \t capacite: %d \t statut: %s \t %d-%d-%d\n"
         ,a.idAvion,a.modele,a.capacite,a.statut,a.dateentree);
  }
+ //fonction pour afficher tous les avions
  void afficherFlotte(){
     if (aeroport.nbAvions == 0)
     {
@@ -33,7 +35,7 @@
     for (int i = 0; i <aeroport.nbAvions; i++)
       afficherAvion(aeroport.flotte[i]);
  }
- 
+ //fonction pour trier la flotte par modele 
 void trierparmodele(){
     for (int i = 0; i < aeroport.nbAvions-1; i++)
     {
@@ -48,6 +50,7 @@ void trierparmodele(){
      } 
    } 
 }
+//fonction pour trier la flotte par capacite
 void trierparcapacite(){
     for (int i = 0;i< aeroport.nbAvions-1;i++){
         for(int j = 0;j < aeroport.nbAvions-i-1;j++){
@@ -59,6 +62,7 @@ void trierparcapacite(){
         }
     }
 }
+//recherche binaire d'un avion par modele
 int recherchemodele(char modele[]){
     trierparmodele();
  int debut=0 , fin= aeroport.nbAvions-1;
@@ -74,6 +78,7 @@ int recherchemodele(char modele[]){
  }
    return -1;
 }
+//recherche binaire d'un avion par modele
  int recherchecapacite(int capacite){
      trierparcapacite();
     int debut = 0 , fin = aeroport.nbAvions-1;
@@ -90,6 +95,7 @@ int recherchemodele(char modele[]){
     return -1;
     
  }
+ //fonction pour trier les avions par id
    void trierparid(){
      for (int i = 0; i <aeroport.nbAvions-1; i++)
      {
@@ -103,6 +109,7 @@ int recherchemodele(char modele[]){
         }
        }
      }
+//recherche binaire d'un avion par id
    }
     int rechercheId(int id) {
     trierparid();
@@ -115,7 +122,7 @@ int recherchemodele(char modele[]){
     }
     return -1;
 }
-
+//fonction pour modifier les informations d'un avion
 void modifierAvion() {
     int id;
     printf("Entrez ID de l'avion a modifier: ");
@@ -138,7 +145,7 @@ void modifierAvion() {
     &aeroport.flotte[pos].dateentree.mois,aeroport.flotte[pos].dateentree.annee);
     printf("Avion modifie.\n");
 }
-
+//fonction pour supprimer un avion
 void supprimerAvion() {
     int id;
     printf("Entrez ID de l'avion a supprimer: ");
@@ -155,7 +162,7 @@ void supprimerAvion() {
     aeroport.nbAvions--;
     printf("Avion supprime.\n");
 }
-
+//fonction pour calculer le coefficien
 void calculCoeffOccupation() {
     int dispo=0;
     for(int i=0;i<aeroport.nbAvions;i++)
@@ -164,6 +171,7 @@ void calculCoeffOccupation() {
     float coeff = ((float)dispo/aeroport.nbAvions)*100;
     printf("Coeff. occupation: %.2f%%\n",coeff);
 }
+//fonction pour calculer et afficher les statistique de les avions 
 void statistique(){
     if (aeroport.nbAvions==0)
     {
@@ -196,6 +204,7 @@ void statistique(){
    printf("le minimum capacite est : %d\n",mincap);
    printf("la capacite total est : %d\n",totalcap);
 }
+//mune de les avions pour choisir le tulisateur les case 
 void menuAvions() {
     int choix;
     do{
@@ -251,6 +260,7 @@ void menuAvions() {
         }
     }while(choix!=0);
 }
+//menu de aeroport 
 void menuAeroport() {
     int choix;
     do

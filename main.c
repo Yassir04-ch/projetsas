@@ -1,6 +1,7 @@
 #include"library.h"
 
 int main() {
+
    aeroport.nbAvions = 0 ;
     printf("==============================================\n");
     printf("=========== GESTION AEROPOZT =============\n");

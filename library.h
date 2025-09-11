@@ -22,7 +22,7 @@ struct Aeroport {
     char nom[50];
     struct Avion flotte[MAX];
     int nbAvions;
-}aeroport;
+}aeroport; 
 
  void ajouterAvion();
  void afficherAvion(struct Avion a);
