@@ -7,16 +7,13 @@ struct Avion {
     char modele[50];
     int capacite;
     char statut[20];
-
 };
 
 struct Aeroport {
     char nom[50];
     struct Avion flotte[MAX];
     int nbAvions;
-};
-
-struct Aeroport aeroport;
+}aeroport;
 int idCounter = 1;
 
 void ajouterAvion() {
@@ -24,7 +21,7 @@ void ajouterAvion() {
         printf("Flotte pleine!\n");
         return;
     }
-    struct Avion a;
+    
     a.idAvion = idCounter++;
     printf("Entrez le modele: ");
     scanf(" %[^\n]", a.modele);
@@ -37,25 +34,20 @@ void ajouterAvion() {
     aeroport.flotte[aeroport.nbAvions++] = a;
     printf("Avion ajoute avec ID %d\n", a.idAvion);
 }
-
- void afficherflotte(){
-    printf("==========Aeroport=========\n");
-    printf("nom : %s\n",aeroport.nom);
-    printf("nombre d'avions : %d\n",aeroport.nbAvions);
-    if (aeroport.nbAvions>0)
-    {
-        printf("liste est :");
-        for (int i = 0; i < aeroport.nbAvions; i++)
-        {
-            printf("%d",aeroport.flotte[i].idAvion);
-            if(i<aeroport.nbAvions-1)
-               printf(",");
-        }
-        printf("\n");
-    }
-    
-
+ void afficheravion(struct avion a){
+    printf("ID: %d \t modele: %s \t capacite: %d \t status: %s \n"
+        ,a.idavion,a.modele,a.capacite,a.status);
  }
+ void afficherflotte(){
+    if (aeroport.nbAvions == 0)
+    {
+     printf("aucun avion.\n");
+     return;
+    }
+    for (int i = 0; i <aeroport.nbAvions; i++)
+     afficheravion(aeroport.flotte[i]);
+ }
+ 
 void trierparmodele(){
     for (int i = 0; i < aeroport.nbAvions-1; i++)
     {
